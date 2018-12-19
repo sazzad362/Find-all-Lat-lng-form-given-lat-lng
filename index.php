@@ -76,18 +76,7 @@
 	<input type="submit" value="search" name="search">
 </form>
 
-<?php 
-
-$ip = '103.58.74.254';
-
-	$details = json_decode(file_get_contents("https://api.ipdata.co/{$ip}?api-key=test"));
-
-	$latitude = $details->latitude;
-	$longitude = $details->longitude;
-
-?>
-
-<h5 class="sd-new-red">Your Location is: Lat: <strong><?php echo $latitude; ?></strong> | Lng: <strong><?php echo $longitude; ?></strong></h5>
+<h5 class="sd-new-red">Your Location is: Lat: <strong>23.7518</strong> | Lng: <strong>90.4254</strong></h5>
 
 <h5 class="sd-new">Total found (10) around 1 Mile from you</h5>
 
@@ -96,40 +85,25 @@ $ip = '103.58.74.254';
 	// Get database conntection Here
 	include 'config.php';
 
-	$lat = 23.7567469;
-	$lng = 90.4179039;
-
+	$orglat = 23.7518;
+	$orglng = 90.4254;
 
 	$SqlQuery = "SELECT * FROM area";
+
+	// $SqlQuery = "SELECT id,( 3959 * acos( cos( radians($orglat) )  * cos(  radians( lat )   ) * cos(  radians( lng ) - radians($orglng) ) + sin( radians($orglat) ) * sin( radians( lat ) ) )) AS distance FROM markers HAVING distance < 1";
 
 	// Result
 	$results = mysqli_query($dbCon, $SqlQuery);
 	
-	while($loc = mysqli_fetch_array($results)){
-
-	// Get value form the array
-	$id = $loc["id"];
-	$name = $loc["name"];
-	$lat = $loc["lat"];
-	$long = $loc["lng"];
-	$price = $loc["price"];
-
-	?>
+	while($loc = mysqli_fetch_array($results)){?>
 
 	<div class="block_area">
-		<h4>ID : <?php echo $id; ?></h4>
-		<h5>Name: <i><?php echo $name; ?></i></h5>
-		<p>Lat: <?php echo $lat; ?></p>
-		<p>Lng: <?php echo $long; ?></p>
-		<p>Price: $<?php echo $price; ?></p>
+		<h4>ID : <?php echo $loc["id"]; ?></h4>
+		<h5>Name: <i><?php echo $loc["name"]; ?></i></h5>
+		<p>Lat: <?php echo $loc["lat"]; ?></p>
+		<p>Lng: <?php echo $loc["lng"]; ?></p>
+		<p>Price: $<?php echo $loc["price"]; ?></p>
 		<a href="#"> View on MAP </a>
 	</div>
 
-	<?php
-
-	}
-
-?>
-
-
-
+	<?php } ?>
