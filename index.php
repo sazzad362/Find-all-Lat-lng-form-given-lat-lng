@@ -29,7 +29,7 @@
 	}
 	.sd-form {
 	    background-color: #ddd;
-	    padding: 25px;
+	    padding: 20px;
 	    margin: 0px 15px 15px 15px;
 	    text-align: center;
 	}
@@ -47,6 +47,20 @@
 	    background-color: #0d74bd;
 	    color: #fff;
 	}
+	.sd-new{
+		padding: 6px 10px;
+	    background-color: #0d74bd;
+	    color: #fff;
+	    width: 30%;
+	    margin: 15px;
+	}
+	.sd-new-red{
+		padding: 6px 10px;
+	    background-color: #e00336;
+	    color: #fff;
+	    width: 30%;
+	    margin: 15px;
+	}
 </style>
 
 <form action="search.php" method="POST" class="sd-form">
@@ -61,6 +75,21 @@
 	</select>
 	<input type="submit" value="search" name="search">
 </form>
+
+<?php 
+
+$ip = '103.58.74.254';
+
+	$details = json_decode(file_get_contents("https://api.ipdata.co/{$ip}?api-key=test"));
+
+	$latitude = $details->latitude;
+	$longitude = $details->longitude;
+
+?>
+
+<h5 class="sd-new-red">Your Location is: Lat: <strong><?php echo $latitude; ?></strong> | Lng: <strong><?php echo $longitude; ?></strong></h5>
+
+<h5 class="sd-new">Total found (10) around 1 Mile from you</h5>
 
 <?php 
 
@@ -89,7 +118,7 @@
 
 	<div class="block_area">
 		<h4>ID : <?php echo $id; ?></h4>
-		<h5>Area Name: <i><?php echo $name; ?></i></h5>
+		<h5>Name: <i><?php echo $name; ?></i></h5>
 		<p>Lat: <?php echo $lat; ?></p>
 		<p>Lng: <?php echo $long; ?></p>
 		<p>Price: $<?php echo $price; ?></p>
