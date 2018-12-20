@@ -87,10 +87,25 @@
 
 	$orglat = 23.7518;
 	$orglng = 90.4254;
+	$miles = 1;
 
-	$SqlQuery = "SELECT * FROM area";
 
-	// $SqlQuery = "SELECT id,( 3959 * acos( cos( radians($orglat) )  * cos(  radians( lat )   ) * cos(  radians( lng ) - radians($orglng) ) + sin( radians($orglat) ) * sin( radians( lat ) ) )) AS distance FROM markers HAVING distance < 1";
+	//Get Query
+
+	$SqlQuery = "SELECT
+			    *, (
+			      3959 * acos (
+			      cos ( radians($orglat) )
+			      * cos( radians( lat ) )
+			      * cos( radians( lng ) - radians($orglng) )
+			      + sin ( radians($orglat) )
+			      * sin( radians( lat ) )
+			    )
+			) AS distance
+			FROM area
+			HAVING distance <= $miles
+			ORDER BY id ASC
+			LIMIT 0 , 20;";
 
 	// Result
 	$results = mysqli_query($dbCon, $SqlQuery);
@@ -106,4 +121,4 @@
 		<a href="#"> View on MAP </a>
 	</div>
 
-	<?php } ?>
+<?php } ?>
