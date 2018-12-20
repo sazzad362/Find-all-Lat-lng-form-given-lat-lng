@@ -88,6 +88,8 @@
 	$orglat = 23.7518;
 	$orglng = 90.4254;
 	$miles = 1;
+	$MinPrice = 10;
+	$MaxPrice = 30;
 
 
 	//Get Query
@@ -103,6 +105,7 @@
 			    )
 			) AS distance
 			FROM area
+			WHERE price BETWEEN $MinPrice AND $MaxPrice
 			HAVING distance <= $miles
 			ORDER BY id ASC
 			LIMIT 0 , 20;";
